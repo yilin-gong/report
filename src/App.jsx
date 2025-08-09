@@ -160,8 +160,8 @@ export default function App() {
 
       {needUpload && (<div className="rounded-2xl border border-dashed border-gray-300 p-8 text-center bg-white">
         <div className="mx-auto w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3"><Upload/></div>
-        <div className="text-lg font-medium">请先上传 CSV</div>
-        <div className="text-gray-500 text-sm">先上传“逾期清单”和“待补全后续行动”两份 CSV，或直接上传完整日报 hospital_data.csv</div>
+        <div className="text-lg font-medium">请先确保后端已成功入库，或上传 CSV 进行本地测试</div>
+        <div className="text-gray-500 text-sm">系统默认从后端 API 自动拉取数据；如需本地测试，可上传完整日报 hospital_data.csv</div>
       </div>)}
 
       {active==="overdue" && (<section className="space-y-4">
@@ -217,7 +217,7 @@ export default function App() {
 
       {active==="console" && (<section className="space-y-4">
         <div className="bg-white rounded-xl border p-4"><div className="flex items-center gap-2"><Search size={18}/>
-          <input className="flex-1 border rounded-lg px-3 py-2" placeholder="搜索 医院/医生/关键词（先上传 CSV）" value={query} onChange={(e)=>setQuery(e.target.value)}/></div>
+          <input className="flex-1 border rounded-lg px-3 py-2" placeholder="搜索 医院/医生/关键词（先确保后端已成功入库，或上传 CSV 进行本地测试）" value={query} onChange={(e)=>setQuery(e.target.value)}/></div>
           <div className="mt-3 text-sm text-gray-500">演示检索，后续将接入 RAG + LLM。</div></div>
       </section>)}
 
