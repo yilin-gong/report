@@ -28,3 +28,13 @@ vercel --prod
 ### 控制台导入
 - 推到 Git 仓库后在 Vercel 选择 Vite 框架，Build: `npm run build`，Output: `dist`
 - 构建完成后访问 `/api/health` 应返回 `{ ok: true }`
+
+
+---
+
+## 设置 API & Key（前端）
+- 右上角点击「设置」可填写：API 基地址（默认 /api）、（开发用）OpenAI Key、模型名。
+- 为安全起见：生产环境应通过 Vercel 环境变量配置 `OPENAI_API_KEY`，不要在浏览器保存密钥。
+
+## 安全建议
+- 仅在**自测**时使用“从浏览器随请求发送 Key”的选项；否则请关闭并由后端持有 Key。

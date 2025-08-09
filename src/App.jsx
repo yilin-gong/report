@@ -31,6 +31,43 @@ export default function App() {
   const [region, setRegion] = useState("全部");
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  // —— 设置（本地存储，仅前端，生产建议用服务端管理密钥）
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [apiBase, setApiBase] = useState(() => localStorage.getItem('apiBase') || '/api');
+  const [devSendKey, setDevSendKey] = useState(() => localStorage.getItem('devSendKey') === '1');
+  const [openaiKey, setOpenaiKey] = useState(() => localStorage.getItem('openaiKey') || '');
+  const [chatModel, setChatModel] = useState(() => localStorage.getItem('chatModel') || 'gpt-4o-mini');
+  const [embedModel, setEmbedModel] = useState(() => localStorage.getItem('embedModel') || 'text-embedding-3-small');
+
+  function saveSettings() {
+    localStorage.setItem('apiBase', apiBase || '');
+    localStorage.setItem('devSendKey', devSendKey ? '1' : '0');
+    if (devSendKey) localStorage.setItem('openaiKey', openaiKey || '');
+    localStorage.setItem('chatModel', chatModel || '');
+    localStorage.setItem('embedModel', embedModel || '');
+    setSettingsOpen(false);
+  }
+
+  async function fetchJSON(path, opts={}) {
+    const headers = opts.headers || {};
+    if (devSendKey && openaiKey) headers['x-openai-key'] = openaiKey;
+    if (chatModel) headers['x-chat-model'] = chatModel;
+    const res = await fetch((apiBase || '') + path, { ...opts, headers });
+    return res.json();
+  }
+  // 自动从 API 拉取数据（可替代手动上传）
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetchJSON('/overdue');
+        const j = await res.json();
+        if (j.ok) setOverdueRows(j.rows || []);
+        const rep = await fetchJSON('/reports');
+        const jr = await rep.json();
+        // 报表数据直接用接口返回，不强制本地合成（前端仍有兜底逻辑）
+      } catch (e) { /* ignore for MVP */ }
+    })();
+  }, []);
   const [selected, setSelected] = useState({});
 
   function keyOf(r) { return `${r["医院ID"] ?? ""}__${r["标准医院名称"] ?? r["医院名称"] ?? ""}`; }

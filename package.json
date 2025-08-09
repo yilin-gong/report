@@ -12,7 +12,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "papaparse": "^5.4.1",
-    "lucide-react": "^0.453.0"
+    "lucide-react": "^0.453.0",
+    "@neondatabase/serverless": "^0.10.0",
+    "openai": "^4.52.0"
   },
   "devDependencies": {
     "vite": "^5.0.0",
